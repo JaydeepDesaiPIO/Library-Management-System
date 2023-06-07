@@ -13,7 +13,11 @@ import java.util.*;
 public class BookController {
     @Autowired
     private BookService bookService;
-
+    @RequestMapping("/")
+    public String base()
+    {
+        return "admin";
+    }
     @RequestMapping(value = "/books",method = RequestMethod.GET)
     public String bookList(Model model)
     {
@@ -48,7 +52,6 @@ public class BookController {
             @ModelAttribute("book") Book book,
             Model model)
     {
-
         // get book from database by id
         Book b = bookService.findById(id);
         b.setName(book.getName());

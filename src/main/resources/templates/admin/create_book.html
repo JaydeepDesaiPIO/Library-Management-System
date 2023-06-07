@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="nav::layout(~{::section})">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,6 +11,7 @@
     <title>Library Management System</title>
 </head>
 <body>
+<section>
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
@@ -51,5 +53,6 @@
             </div>
         </div>
     </div>
+    </section>
 </body>
 </html>

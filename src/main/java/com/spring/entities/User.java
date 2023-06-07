@@ -15,7 +15,7 @@ public class User {
     private String email;
     private String username;
     private String password;
-    private int contact;
+    private Long contact;
     private String address;
 
     private String role;
@@ -29,14 +29,6 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getContact() {
-        return contact;
-    }
-
-    public void setContact(int contact) {
-        this.contact = contact;
     }
 
     public String getAddress() {
@@ -69,6 +61,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getContact() {
+        return contact;
+    }
+
+    public void setContact(Long contact) {
+        this.contact = contact;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
