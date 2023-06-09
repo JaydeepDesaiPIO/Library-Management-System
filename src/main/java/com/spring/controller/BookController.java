@@ -13,10 +13,10 @@ import java.util.*;
 public class BookController {
     @Autowired
     private BookService bookService;
-    @RequestMapping("/")
+    @GetMapping("/")
     public String base()
     {
-        return "admin";
+        return "admin/home.html";
     }
     @RequestMapping(value = "/books",method = RequestMethod.GET)
     public String bookList(Model model)

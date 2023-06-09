@@ -1,9 +1,8 @@
 package com.spring.entities;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -18,7 +17,11 @@ public class User {
     private Long contact;
     private String address;
 
-    private String role;
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_roles"
+    )
+    private Collection<Role> roles;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Book> books=new ArrayList<>();
@@ -71,12 +74,30 @@ public class User {
         this.contact = contact;
     }
 
-    public String getRole() {
-        return role;
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public User( String email, String username, String password, Long contact, String address, Collection<Role> roles) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.contact = contact;
+        this.address = address;
+        this.roles = roles;
+        this.books = books;
     }
 
     @Override
@@ -88,6 +109,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", contact=" + contact +
                 ", address='" + address + '\'' +
+                ", roles=" + roles +
+                ", books=" + books +
                 '}';
     }
 }
