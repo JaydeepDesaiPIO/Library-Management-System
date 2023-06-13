@@ -1,55 +1,63 @@
 package com.spring.congifuration;
 
-import com.spring.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
-import java.util.List;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
-public class MyConfig implements UserDetails {
-    private User user;
+@EnableWebSecurity
+public class MyConfig extends WebSecurityConfigurerAdapter {
 
-    public MyConfig(User user) {
-        this.user = user;
+    @Autowired
+    public AuthenticationSuccessHandler successHandler;
+    @Bean
+    public UserDetailsService getUserDetailService()
+    {
+        return new UserDetailsServiceImpl();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder()
+    {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider()
+    {
+        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(this.getUserDetailService());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
+    }
+
+    // configure method..
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        SimpleGrantedAuthority simpleGrantedAuthority=new SimpleGrantedAuthority(user.getRole());
-        return List.of(simpleGrantedAuthority);
-    }
-
-    @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-        return user.getUsername();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/**").permitAll()
+                .and()
+                .formLogin()
+                .loginPage("/home/signin")
+                .loginProcessingUrl("/dologin")
+                .successHandler(successHandler)
+                .and()
+                .csrf().disable();
     }
 }

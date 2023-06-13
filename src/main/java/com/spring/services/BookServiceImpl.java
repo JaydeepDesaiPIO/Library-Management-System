@@ -15,6 +15,11 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepo;
     @Override
     public void addBook(Book b) {
+        if(b==null)
+        {
+            b.setStatus(false);
+        }
+        b.setStatus(true);
         bookRepo.save(b);
     }
     @Override

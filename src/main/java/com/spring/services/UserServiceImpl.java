@@ -4,6 +4,7 @@ import com.spring.entities.User;
 import com.spring.repositories.UserRepository;
 import com.spring.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -15,9 +16,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User addUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_ADMIN");
         return userRepository.save(user);
     }
@@ -45,5 +49,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteByID(int id) {
          userRepository.deleteById(id);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.getUserByName(username);
     }
 }

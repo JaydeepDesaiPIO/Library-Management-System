@@ -1,11 +1,15 @@
 package com.spring.controller;
 
 import com.spring.entities.Book;
+import com.spring.entities.User;
+import com.spring.repositories.UserRepository;
 import com.spring.services.interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.util.*;
 
 @Controller
@@ -13,9 +17,16 @@ import java.util.*;
 public class BookController {
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/")
-    public String base()
+    public String base(Model model, Principal principal)
     {
+        String user=principal.getName();
+        User user1=userRepository.getUserByName(user);
+        System.out.println(user1);
         return "admin/home.html";
     }
     @RequestMapping(value = "/books",method = RequestMethod.GET)

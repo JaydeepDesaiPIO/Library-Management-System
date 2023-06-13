@@ -4,6 +4,7 @@ import com.spring.entities.User;
 import com.spring.helper.Message;
 import com.spring.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -38,6 +40,7 @@ public class HomeController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user")User user, Model model, HttpSession session) {
         try {
+
             userService.addUser(user);
             model.addAttribute("user",new User());
             session.setAttribute("message", new Message("Successfully Registered", "alert-success"));
@@ -50,4 +53,12 @@ public class HomeController {
             return "redirect:/home/signup";
         }
     }
+
+    @GetMapping("/signin")
+    public String login(Model model)
+    {
+        model.addAttribute("title","Login Page");
+        return "login.html";
+    }
+
 }
