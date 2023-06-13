@@ -28,26 +28,20 @@ public class MemberController {
         return "admin/edit_user";
     }
 
-    @PostMapping("/users/{id}")
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.POST)
     public String updateBook(@PathVariable int id,
                              @ModelAttribute("user") User user,
                              Model model)
     {
-        // get book from database by id
-        User ExistingUser = userService.findById(id);
-        ExistingUser.setUsername(user.getUsername());
-        ExistingUser.setContact(user.getContact());
-        ExistingUser.setAddress(user.getAddress());
-
         // save updated book
-        userService.update(user);
+        userService.update(user,id);
         return "redirect:/admin/users";
     }
 
     @GetMapping("/users/{id}")
     public String deleteBook(@PathVariable int id)
     {
-        userService.deletebyID(id);
+        userService.deleteByID(id);
         return "redirect:/admin/users";
     }
 

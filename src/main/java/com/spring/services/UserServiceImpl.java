@@ -1,7 +1,5 @@
 package com.spring.services;
 
-import com.spring.dto.UserRegisterationDto;
-import com.spring.entities.Role;
 import com.spring.entities.User;
 import com.spring.repositories.UserRepository;
 import com.spring.services.interfaces.UserService;
@@ -19,14 +17,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User addUser(UserRegisterationDto userRegisterationDto) {
-        User user=new User(userRegisterationDto.getUsername()
-                ,userRegisterationDto.getEmail()
-                ,userRegisterationDto.getPassword()
-                ,userRegisterationDto.getContact()
-                ,userRegisterationDto.getAddress(), Arrays.asList(new Role("ROLE_ADMIN")));
-
-       return userRepository.save(user);
+    public User addUser(User user) {
+        user.setRole("ROLE_ADMIN");
+        return userRepository.save(user);
     }
 
     @Override
@@ -40,12 +33,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
-        return userRepository.save(user);
+    public User update(User user,int id) {
+        // get book from database by id
+        User existingUser =userRepository.findById(id).get();
+        existingUser.setUsername(user.getUsername());
+        existingUser.setContact(user.getContact());
+        existingUser.setAddress(user.getAddress());
+        return userRepository.save(existingUser);
     }
 
     @Override
-    public void deletebyID(int id) {
+    public void deleteByID(int id) {
          userRepository.deleteById(id);
     }
 }

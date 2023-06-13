@@ -16,12 +16,7 @@ public class User {
     private String password;
     private Long contact;
     private String address;
-
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_roles"
-    )
-    private Collection<Role> roles;
+    private String role;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Book> books=new ArrayList<>();
@@ -74,12 +69,12 @@ public class User {
         this.contact = contact;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public List<Book> getBooks() {
@@ -90,13 +85,17 @@ public class User {
         this.books = books;
     }
 
-    public User( String email, String username, String password, Long contact, String address, Collection<Role> roles) {
+    public User() {
+    }
+
+    public User(int id, String email, String username, String password, Long contact, String address, String role, List<Book> books) {
+        this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
         this.contact = contact;
         this.address = address;
-        this.roles = roles;
+        this.role = role;
         this.books = books;
     }
 
@@ -109,7 +108,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", contact=" + contact +
                 ", address='" + address + '\'' +
-                ", roles=" + roles +
+                ", role='" + role + '\'' +
                 ", books=" + books +
                 '}';
     }

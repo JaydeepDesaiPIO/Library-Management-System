@@ -1,19 +1,17 @@
 package com.spring.services.interfaces;
 
-import com.spring.dto.UserRegisterationDto;
 import com.spring.entities.User;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface UserService {
-    public User addUser(UserRegisterationDto userRegisterationDto);
+    public User addUser(User user);
 
     public List<User> getAllUsers();
 
     public User findById(int id);
 
-    public User update(User user);
+    public User update(User user,int id);
 
-    void deletebyID(int id);
+    void deleteByID(int id);
 }
