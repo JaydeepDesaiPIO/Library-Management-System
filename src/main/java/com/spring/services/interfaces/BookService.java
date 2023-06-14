@@ -1,10 +1,12 @@
 package com.spring.services.interfaces;
 
 import com.spring.entities.Book;
+import com.spring.entities.IssueBook;
 
 import java.util.List;
 
 public interface BookService {
+
     public void addBook(Book b);
 
     public List<Book> getAllBook();
@@ -16,4 +18,5 @@ public interface BookService {
 
     //Update data in table
     Book update(Book b);
+
 }

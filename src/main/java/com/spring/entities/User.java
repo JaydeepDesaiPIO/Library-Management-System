@@ -18,8 +18,8 @@ public class User {
     private String address;
     private String role;
 
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<Book> books=new ArrayList<>();
+    @OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    private List<Book> books;
 
     public int getId() {
         return id;

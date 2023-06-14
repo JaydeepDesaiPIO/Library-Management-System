@@ -1,18 +1,20 @@
 package com.spring.services;
 
 import com.spring.entities.Book;
+import com.spring.entities.IssueBook;
 import com.spring.repositories.BookRepository;
+import com.spring.repositories.IssueBookRepository;
 import com.spring.services.interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepo;
+
     @Override
     public void addBook(Book b) {
         if(b==null)
@@ -46,4 +48,5 @@ public class BookServiceImpl implements BookService {
     public Book update(Book b) {
         return bookRepo.save(b);
     }
+
 }
