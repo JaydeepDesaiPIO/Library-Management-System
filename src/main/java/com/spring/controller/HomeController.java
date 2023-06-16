@@ -46,7 +46,8 @@ public class HomeController {
             session.setAttribute("message", new Message("Successfully Registered", "alert-success"));
             return "redirect:/home/signup";
 
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("user", user);
             session.setAttribute("message", new Message("Something went Wrong !!", "alert-danger"));

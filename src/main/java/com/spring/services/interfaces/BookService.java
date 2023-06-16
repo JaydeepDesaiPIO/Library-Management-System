@@ -11,6 +11,8 @@ public interface BookService {
 
     public List<Book> getAllBook();
 
+    public List<Book> getAllBookAvailable();
+
     //to find a book by id
     Book findById(int id);
 

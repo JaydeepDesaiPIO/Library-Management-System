@@ -23,7 +23,7 @@ public class IssueBook {
     @NotNull
     private Book book;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     @JoinColumn(name = "user_id")
     @NotNull
     private User user;
@@ -33,6 +33,7 @@ public class IssueBook {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date retureDate;
+
 
     public int getBorrowId() {
         return borrowId;

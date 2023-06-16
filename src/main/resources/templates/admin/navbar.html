@@ -29,7 +29,7 @@
               <a class="nav-link" th:href="@{/admin/books}" href="#">Books</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Add Book</a>
+              <a class="nav-link" th:href="@{/admin/issue}" href="#">Issue Book</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" th:href="@{/admin/users}" href="#">Users</a>
@@ -40,6 +40,11 @@
           </ul>
         </div>
       </div>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div id="navbar-right">
+          <li class="nav-item"><a class="nav-link active"  aria-current="page" href="/logout">Logout</a></li>
+        </div>
+      </ul>
     </nav>
 
     <div th:replace="${data}"></div>

@@ -3,8 +3,10 @@ package com.spring.controller;
 import com.spring.entities.Book;
 import com.spring.entities.IssueBook;
 import com.spring.entities.User;
+import com.spring.repositories.BookRepository;
 import com.spring.repositories.IssueBookRepository;
 import com.spring.repositories.UserRepository;
+import com.spring.services.IssueBookService;
 import com.spring.services.interfaces.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,10 +28,19 @@ public class BookController {
     @Autowired
     private IssueBookRepository issueBookRepository;
 
+    @Autowired
+    private IssueBookService issueBookService;
+
     @ModelAttribute("users")
     public List<User> getUsers()
     {
         return userRepository.findAll();
+    }
+
+    @ModelAttribute("books")
+    public List<Book> getBooks()
+    {
+        return bookService.getAllBookAvailable();
     }
 
     @GetMapping("/")
@@ -91,22 +102,18 @@ public class BookController {
         return "redirect:/admin/books";
     }
 
-    @GetMapping("/issuebook/{id}")
-    public String issueBookToUser(@PathVariable int id,Model model)
+    @GetMapping("/issue")
+    public String issueBookUser(Model model)
     {
-        Book book=bookService.findById(id);
         IssueBook issueBook=new IssueBook();
-        issueBook.setBook(book);
-        model.addAttribute("issueBook",issueBook);
-        return "admin/issue_Book";
+        model.addAttribute("issuedBook",issueBook);
+        return "admin/issue";
     }
 
     @PostMapping("/issueBooks")
-    public String issue(@ModelAttribute ("issueBook") IssueBook issueBook)
+    public String issue(@ModelAttribute ("issuedBook") IssueBook issueBook)
     {
-        User user=issueBook.getUser();
-        user.setBooks(List.of(issueBook.getBook()));
-        issueBookRepository.save(issueBook);
+        issueBookService.saveIssuedBook(issueBook);
         return "redirect:/admin/issuedBooks";
     }
 
@@ -116,7 +123,6 @@ public class BookController {
         model.addAttribute("issuedBooks",issueBookRepository.findAll());
         return "admin/issued_bookList";
     }
-
 
 
 }

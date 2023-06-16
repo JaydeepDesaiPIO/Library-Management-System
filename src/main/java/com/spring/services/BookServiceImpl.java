@@ -17,16 +17,18 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void addBook(Book b) {
-        if(b==null)
-        {
-            b.setStatus(false);
-        }
-        b.setStatus(true);
+        if(null !=b)
+            b.setAvailable(true);
         bookRepo.save(b);
     }
     @Override
     public List<Book> getAllBook() {
         return bookRepo.findAll();
+    }
+
+    @Override
+    public List<Book> getAllBookAvailable() {
+        return bookRepo.findAllAvailable();
     }
 
     //to find a book by id

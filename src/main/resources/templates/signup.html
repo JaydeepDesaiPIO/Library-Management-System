@@ -15,7 +15,6 @@
                        <p class="text-center" th:text="${session.message.content}"></p>
 
                        <th:block th:text="${#session.removeAttribute('message')}"></th:block>
-
                    </div>
 
                    <h1 class="text-center mb-3"> Register here !!</h1>
@@ -61,6 +60,7 @@
                            <button type="submit" class="btn btn-success">Submit</button>
                            <button type="reset" class="btn btn-danger">Reset</button>
                        </div>
+
                    </form>
 
                </div>
