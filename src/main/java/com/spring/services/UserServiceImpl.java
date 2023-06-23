@@ -1,5 +1,6 @@
 package com.spring.services;
 
+import com.spring.entities.Book;
 import com.spring.entities.User;
 import com.spring.repositories.UserRepository;
 import com.spring.services.interfaces.UserService;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) {
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("ROLE_USER");
         return userRepository.save(user);
@@ -48,6 +50,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteByID(int id) {
+        User user=userRepository.findById(id).get();
+        List<Book> bookList=user.getBooks();
+        for (Book b : bookList)
+        {
+            if(b.isAvailable()==false)
+                b.setAvailable(true);
+        }
          userRepository.deleteById(id);
     }
 
